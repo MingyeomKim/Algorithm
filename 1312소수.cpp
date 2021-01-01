@@ -45,9 +45,10 @@ while(1):
     a = d
     count+=1
     if(count == N + 1):
-
         print(c)
         break
+    if(b == 0):
+    	exit()
 
 // 소수점 자릿수를 구하는 프로그램을 작성. 근데 왜 자꾸 틀렸다고 뜨냐 하 ㅋㅋ 
 */
