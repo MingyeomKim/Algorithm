@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 using namespace std;
 
 int facto(int a)
@@ -66,3 +66,41 @@ int main()
 	}
 }
 
+*/
+#include <iostream>
+using namespace std;
+
+
+int dp(int n);
+int main()
+{
+	int T; cin >> T;
+	for (int i = 0; i < T; i++)
+	{
+		int n;
+		cin >> n;
+		cout << dp(n) << endl;
+	}
+	return 0;
+}
+
+int dp(int n)
+{
+	int array[1000] = { 0, };
+	array[0] = 1;
+	array[1] = 2;
+	array[2] = 4;
+	if (n <= 3)
+	{
+		return array[n - 1];
+	}
+	else {
+		for (int i = 3;i < n; i++)
+		{
+			array[i] = array[i - 1] + array[i - 2] + array[i - 3];
+		}
+		return array[n - 1];
+	}
+	
+}
+// 수학 풀이 과정에 해결 코드를 찾아서 작성
