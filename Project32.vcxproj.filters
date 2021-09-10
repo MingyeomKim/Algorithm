@@ -22,9 +22,6 @@
     <Filter Include="소스 파일\Webgrus 자료구조 스터디\1주차 검색알고리즘">
       <UniqueIdentifier>{da25315a-7efb-40dd-8ba0-2ad5f8bd8316}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Webgrus 자료구조 스터디\2주 스과 큐">
-      <UniqueIdentifier>{ea610ebd-299a-4248-851b-1c9c19b6e5ef}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IGRUS대회 준비\1138한줄로서기.cpp">
@@ -98,5 +95,6 @@
     <None Include="IGRUS대회 준비\1252이진수덧셈.py">
       <Filter>소스 파일\IGRUS 대회 준비</Filter>
     </None>
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>
