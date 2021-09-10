@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\IGRUS 대회 준비">
+      <UniqueIdentifier>{1c54441e-a41a-4792-8f7a-2dd391408b89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Webgrus 자료구조 스터디">
+      <UniqueIdentifier>{151f5ebb-2a58-495e-9973-c6c1e219ee6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Webgrus 자료구조 스터디\1주차 검색알고리즘">
+      <UniqueIdentifier>{da25315a-7efb-40dd-8ba0-2ad5f8bd8316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Webgrus 자료구조 스터디\2주 스과 큐">
+      <UniqueIdentifier>{ea610ebd-299a-4248-851b-1c9c19b6e5ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IGRUS대회 준비\1138한줄로서기.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\1193분수찾기.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\1312소수.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\1546평균.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\1783병든나이트.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\1931회의실배정.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\2562최댓값.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\2606바이러스.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\2670연속부분최대곱.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\2748피보나치2.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\2750수정렬하기.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\4673셀프넘버.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\4796캠핑.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\5585거스름돈.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\11399ATM.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\15780멀티탭충분하니.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\17263Sort마스터배지훈.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="IGRUS대회 준비\90951,2,3더하기.cpp">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </ClCompile>
+    <ClCompile Include="WebGrus\검색 알고리즘\1065한수.cpp">
+      <Filter>소스 파일\Webgrus 자료구조 스터디\1주차 검색알고리즘</Filter>
+    </ClCompile>
+    <ClCompile Include="WebGrus\검색 알고리즘\1654랜선자르기.cpp">
+      <Filter>소스 파일\Webgrus 자료구조 스터디\1주차 검색알고리즘</Filter>
+    </ClCompile>
+    <ClCompile Include="1920수찾기.cpp">
+      <Filter>소스 파일\Webgrus 자료구조 스터디\1주차 검색알고리즘</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IGRUS대회 준비\1152단어의개수.py">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </None>
+    <None Include="IGRUS대회 준비\1252이진수덧셈.py">
+      <Filter>소스 파일\IGRUS 대회 준비</Filter>
+    </None>
+  </ItemGroup>
+</Project>
