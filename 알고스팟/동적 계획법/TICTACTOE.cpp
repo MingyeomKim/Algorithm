@@ -70,7 +70,7 @@ int main() {
 		int init_count = 0; // 초기 상태가 이미 게임이 진행된 상태인 경우, 몇 번 주고 받았는 지 센다. 
 		for (int i = 0; i < 3; i++) {
 			cin >> input; 
-			for (int j = 0; j < 3; j++)
+			for (int j = 0; j < 3; j++) 
 				if (input[j] != '.') init_count++; 
 			board.push_back(input); 
 		}
