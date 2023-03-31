@@ -41,23 +41,14 @@ int main() {
 			sign.push_back(i); 
 	} // sign : 0 0 1 2 3
 	
-	// ÃÖ´ñ°ª
-	int ret = -INF; 
+	vector<int> candidates; 
 	do {
-		int cand = calc(number, sign); 
-		if (ret < cand) ret = cand; 
+		int temp = calc(number, sign);
+		candidates.push_back(temp); 
 	} while (next_permutation(sign.begin(), sign.end())); 
-	cout << ret << endl;
-
-	sort(sign.begin(), sign.end()); 
-
-	// ÃÖ¼Ú°ª
-	ret = INF;
-	do {
-		int cand = calc(number, sign);
-		if (ret > cand) ret = cand; 
-	} while (next_permutation(sign.begin(), sign.end())); 
-	cout << ret << endl;
+	auto ret = minmax_element(candidates.begin(), candidates.end());
+	cout << *ret.second << endl; // ÃÖ´ñ°ª
+	cout << *ret.first << endl; // ÃÖ¼Ú°ª
 
 	return 0; 
 }
