@@ -1,26 +1,26 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <algorithm>
 #include <vector>
-using namespace std; 
+using namespace std;
 
-int n; 
-int alpha[256]; 
+int n;
+int alpha[256];
 
-// ÁÖ¾îÁø ¼ø¿­¿¡ ÇØ´çÇÏ´Â ´Ü¾îÀÇ ÇÕÀ» ±¸ÇÑ´Ù.
-int calc(vector<string>& input, vector<char>&letters, vector<int> number) {
-	int sum = 0; 
+// ï¿½Ö¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½Ü¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
+int calc(vector<string>& input, vector<char>& letters, vector<int> number) {
+	int sum = 0;
 	for (int i = 0; i < letters.size(); i++) {
-		alpha[letters[i]] = number[i]; 
+		alpha[letters[i]] = number[i];
 	}
 
 	for (string s : input) {
 		int now = 0;
 		for (char x : s) {
-			now = now * 10 + alpha[x]; 
+			now = now * 10 + alpha[x];
 		}
-		sum += now; 
+		sum += now;
 	}
-	return sum; 
+	return sum;
 }
 
 int main() {
@@ -33,22 +33,22 @@ int main() {
 			letters.push_back(c);
 	}
 
-	// letters Áßº¹ Á¦°Å
+	// letters ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½
 	sort(letters.begin(), letters.end());
 	letters.erase(unique(letters.begin(), letters.end()), letters.end());
 
 	vector<int> number;
 	int m = letters.size();
 	for (int i = 9; i > 9 - m; i--)
-		number.push_back(i); 
-	sort(number.begin(), number.end()); 
+		number.push_back(i);
+	sort(number.begin(), number.end());
 
-	int ret = 0; 
+	int ret = 0;
 	do {
-		int cand = calc(input, letters, number); 
-		if (ret < cand) ret = cand; 
-	} while (next_permutation(number.begin(), number.end())); 
-	
+		int cand = calc(input, letters, number);
+		if (ret < cand) ret = cand;
+	} while (next_permutation(number.begin(), number.end()));
+
 	cout << ret << endl;
-	return 0; 
+	return 0;
 }
