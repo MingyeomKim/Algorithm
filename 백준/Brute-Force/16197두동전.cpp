@@ -1,6 +1,4 @@
 #include <iostream>
-#include <limits>
-#include <vector>
 using namespace std;
 
 int n, m;
@@ -15,10 +13,9 @@ bool isOut(int y, int x) {
 
 // 두 동전의 위치를 받아 이동함을 표현한다. 
 int play(int y1, int x1, int y2, int x2, int cnt) {
-	if (isOut(y1, x1) ^ isOut(y2, x2)) return cnt; // 둘 중 하나만 떨어졌다면
+	if (cnt > 10) return -1;
 	if (isOut(y1, x1) && isOut(y2, x2)) return -1; // 둘다 떨어졌다면
-	if (cnt > 10)
-		return -1; 
+	if (isOut(y1, x1) ^ isOut(y2, x2)) return cnt; // 둘 중 하나만 떨어졌다면
 
 	int ret = -1; 
 	for (int direction = 0; direction < 4; direction++) {
@@ -52,10 +49,9 @@ int main() {
 			cin >> board[i][j]; 
 			if (board[i][j] == 'o'){
 				coin[cnt] = make_pair(i, j); 
-				cnt++; 
+				cnt++;
 			}
 		}
 	cout << play(coin[0].first, coin[0].second, coin[1].first, coin[1].second, 0) << endl;
 	return 0; 
 }
-
