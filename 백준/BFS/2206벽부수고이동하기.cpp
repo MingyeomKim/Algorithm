@@ -38,6 +38,7 @@ int bfs() {
 			if (k == 0 && board[ny][nx] == 1 && dist[ny][nx][k + 1] == 0) {
 				dist[ny][nx][k + 1] = dist[y][x][k] + 1; 
 				q.push(make_tuple(ny, nx, k + 1)); 
+				// k + 1 queue에 넣었기 때문에, 이후로는 k는 항상 1이다. 따라서 이 구문을 동일 경로 상에서 다시 통과할 수 없다.
 			}
 		}
 	}
