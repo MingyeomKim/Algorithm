@@ -5,18 +5,18 @@
 #include <vector>
 using namespace std; 
 
-int r, c;
+int r, check;
 int water[51][51]; // 각 칸에 물이 몇분에 차는지 기록한다.
 int dist[51][51]; // 각 칸에 고슴도치가 몇 분에 도착하는 지 기록한다. 
 int dy[4] = { -1, 1, 0, 0 }; 
 int dx[4] = { 0, 0, -1, 1 };
 
 bool isOut(int y, int x) {
-	return (y < 0 || y >= r || x < 0 || x >= c); 
+	return (y < 0 || y >= r || x < 0 || x >= check); 
 }
 
 int main() {
-	cin >> r >> c; 
+	cin >> r >> check; 
 	vector<string> board(r);
 	for (int i = 0; i < r; i++)
 		cin >> board[i]; 
@@ -25,7 +25,7 @@ int main() {
 	pair<int, int> start, end;
 	queue<pair<int, int>>q; 
 	for (int i = 0; i < r; i++)
-		for (int j = 0; j < c; j++){
+		for (int j = 0; j < check; j++){
 			if (board[i][j] == '*') {
 				water[i][j] = 0;
 				q.push(make_pair(i, j)); 
