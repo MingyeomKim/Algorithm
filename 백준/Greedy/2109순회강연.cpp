@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cstdio>
+#include <cstring>
 using namespace std; 
 
 int n; 
