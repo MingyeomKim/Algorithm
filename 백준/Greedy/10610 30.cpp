@@ -17,9 +17,8 @@ int main() {
 			areZeroExists = true; 
 	}
 	
+	sort(input.begin(), input.end(), cmp);
 	if (!areZeroExists || sum % 3 != 0) cout << -1 << endl;
-
-	sort(input.begin(), input.end(), cmp); 
-	cout << input << endl;
+	else cout << input << endl;
 	return 0;
 }
