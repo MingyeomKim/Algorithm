@@ -49,7 +49,6 @@ int main() {
 		for (int j = 0; j < n; j++)
 			cin >> board[i][j];
 
-
 	solve(0, 1, 0); 
 	cout << ret << endl;
 	return 0;
