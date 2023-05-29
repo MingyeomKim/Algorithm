@@ -1,9 +1,11 @@
 #include <iostream>
+#define endl '\n'
 using namespace std; 
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cout.tie(NULL); cin.tie(NULL); 
+
 	int m; cin >> m; 
 	int bitmask = 0;
 	for (int i = 0; i < m; i++) {
