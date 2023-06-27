@@ -10,7 +10,7 @@ int dy[] = { 1, -1, 0, 0 };
 int dx[] = { 0, 0, 1, -1 }; 
 
 int w, h;
-int dist[21][21];
+int check[21][21];
 vector<string> v;
 
 bool isOut(int y, int x) {
@@ -18,18 +18,18 @@ bool isOut(int y, int x) {
 }
 
 void bfs(pair<int, int> src) {
-	memset(dist, -1, sizeof(dist)); 
+	memset(check, -1, sizeof(check)); 
 	queue<pair<int, int>> q; 
 	int y = src.first, x = src.second; 
 	q.push(make_pair(y, x)); 
-	dist[y][x] = 0; 
+	check[y][x] = 0; 
 	while (!q.empty()) {
 		tie(y, x) = q.front(); q.pop(); 
 
 		for (int direction = 0; direction < 4; direction++) {
 			int ny = y + dy[direction], nx = x + dx[direction]; 
-			if (isOut(ny, nx) || dist[ny][nx] != -1 || v[ny][nx] == 'x') continue;
-			dist[ny][nx] = dist[y][x] + 1; 
+			if (isOut(ny, nx) || check[ny][nx] != -1 || v[ny][nx] == 'x') continue;
+			check[ny][nx] = check[y][x] + 1; 
 			q.push(make_pair(ny, nx));
 		}
 	}
@@ -61,7 +61,7 @@ int main() {
 		vector<int> initial(target.size());
 		bfs(make_pair(sy, sx));
 		for (int i = 0; i < target.size(); i++) {
-			int distance = dist[target[i].first][target[i].second];
+			int distance = check[target[i].first][target[i].second];
 			if (distance == -1) {
 				flag = false; 
 				break;
@@ -78,7 +78,7 @@ int main() {
 		for (int i = 0; i < target.size() - 1; i++) {
 			bfs(target[i]); 
 			for (int j = i + 1; j < target.size(); j++) {
-				int distance = dist[target[j].first][target[j].second];
+				int distance = check[target[j].first][target[j].second];
 				if (distance == -1) {
 					flag = false; 
 					break;

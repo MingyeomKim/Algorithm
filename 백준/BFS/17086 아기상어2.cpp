@@ -7,7 +7,7 @@ using namespace std;
 
 int n, m; 
 int board[51][51]; 
-int dist[51][51]; 
+int check[51][51]; 
 
 int dy[] = { 0, 0, 1, -1, -1, -1, 1, 1 }; 
 int dx[] = { 1, -1, 0, 0, -1, 1, -1, 1 }; 
@@ -17,19 +17,19 @@ int isOut(int y, int x) {
 }
 
 int bfs(int y, int x) {
-	memset(dist, -1, sizeof(dist)); 
+	memset(check, -1, sizeof(check)); 
 	queue<pair<int, int>> q; 
-	dist[y][x] = 0; 
+	check[y][x] = 0; 
 	q.push(make_pair(y, x)); 
 
 	while (!q.empty()) {
 		tie(y, x) = q.front(); q.pop();
 		for (int direction = 0; direction < 8; direction++) {
 			int ny = y + dy[direction], nx = x + dx[direction]; 
-			if (isOut(ny, nx) || dist[ny][nx] != -1) continue; 
-			dist[ny][nx] = dist[y][x] + 1; 
+			if (isOut(ny, nx) || check[ny][nx] != -1) continue; 
+			check[ny][nx] = check[y][x] + 1; 
 			if (board[ny][nx] == 1)
-				return dist[ny][nx]; 
+				return check[ny][nx]; 
 			else
 				q.push(make_pair(ny, nx)); 
 		}
