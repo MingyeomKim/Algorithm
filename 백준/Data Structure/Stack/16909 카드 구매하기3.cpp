@@ -17,11 +17,11 @@ int main() {
 	for (int i = 1; i <= n; i++)
 		cin >> v[i]; 
 
-	vector<int> lg(n + 1, 0);
-	vector<int> rg(n + 1, n + 1);
-	vector<int> ls(n + 1, 0);
-	vector<int> rs(n + 1, n + 1);
-	{
+	vector<int> lg(n + 1, 0); // 왼쪽으로 얼마나 큰지 ? 
+	vector<int> rg(n + 1, n + 1); // 오른쪽으로 얼마나 큰지 ? 
+	vector<int> ls(n + 1, 0); // 온쪽으로 얼마나 작은지 ? 
+	vector<int> rs(n + 1, n + 1); // 오른쪽으로 얼마나 작은지 ?
+	{ // 오른쪽에 대한 크고/작음을 구한다.
 		stack<pair<int, int>> sg, ss; 
 		sg.push(make_pair(1, v[1])); 
 		ss.push(make_pair(1, v[1])); 
@@ -29,12 +29,12 @@ int main() {
 			while (!sg.empty() && v[i] >= sg.top().second) {
 				rg[sg.top().first] = i;
 				sg.pop();
-			}
+			} // 오른쪽으로 얼마나 커질 수 있는지
 			sg.push(make_pair(i, v[i]));
 			while (!ss.empty() && v[i] <= ss.top().second) {
 				rs[ss.top().first] = i; 
 				ss.pop(); 
-			}
+			} // 오른쪽으로 얼마나 작아질 수 있는지 ? 
 			ss.push(make_pair(i, v[i])); 
 		}
 	}
@@ -47,12 +47,12 @@ int main() {
 			while (!sg.empty() && v[i] > sg.top().second) {
 				lg[sg.top().first] = i; 
 				sg.pop(); 
-			}
+			} // 왼쪽으로 얼마나 커질 수 있는지 ? 
 			sg.push(make_pair(i, v[i])); 
 			while (!ss.empty() && v[i] < ss.top().second) {
 				ls[ss.top().first] = i; 
 				ss.pop();
-			}
+			} // 왼쪽으로 얼마나 작아질 수 있는지 ?
 			ss.push(make_pair(i, v[i])); 
 		}
 	}
