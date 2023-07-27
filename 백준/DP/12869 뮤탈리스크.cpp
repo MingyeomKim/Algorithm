@@ -4,14 +4,14 @@
 #include <algorithm>
 using namespace std;
 
-int dp3[540][540][61];
-int dp2[540][61];
-int dp1[540];
+int dp3[601][601][61];
+int dp2[601][61];
+int dp1[601];
 int scv[3];
 
-int sum; 
+int sum;
 int solve(int a, int b, int i) {
-	int c = sum - (13 * i) - (a + b); 
+	int c = sum - (13 * i) - (a - 540 + b - 540);
 	if (a <= 540 && b <= 540 && c <= 0) return 0;
 
 	int& ret = dp3[a][b][i];
@@ -25,11 +25,11 @@ int solve(int a, int b, int i) {
 	candidates.push_back(solve(a - 1, b - 9, i + 1) + 1);
 	candidates.push_back(solve(a - 1, b - 3, i + 1) + 1);
 	sort(candidates.begin(), candidates.end());
-	return dp3[a][b][i] = candidates[0];
+	return ret = candidates[0];
 }
 
 int solve(int a, int i) {
-	int b = sum - (13 * i) - (a - 540); 
+	int b = sum - (12 * i) - (a - 540);
 	if (a <= 540 && b <= 0) return 0;
 	int& ret = dp2[a][i];
 	if (ret != -1) return ret;
@@ -64,11 +64,11 @@ int main() {
 	if (n == 1)
 		cout << solve(scv[0] + 540) << endl;
 	else if (n == 2) {
-		sum = scv[0] + scv[1]; 
+		sum = scv[0] + scv[1];
 		cout << solve(scv[0] + 540, 0) << endl;
 	}
 	else {
-		sum = scv[0] + scv[1] + scv[2]; 
+		sum = scv[0] + scv[1] + scv[2];
 		cout << solve(scv[0] + 540, scv[1] + 540, 0) << endl;
 	}
 	return 0;
