@@ -1,48 +1,47 @@
 #include <iostream>
-#include <vector>
 #include <cstring>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
-int dp[1000001]; // dp[i] : 1ì—ì„œ iê¹Œì§€ ì—°ì‚°í•˜ëŠ” íšŸìˆ˜ì˜ ìµœì†Ÿê°’
-
-int n;
-vector<int> ans;
-int solve(int x) {
-	if (x == n) {
-		ans.push_back(x);
-		return 1;
-	}
-	if (x > n) {
-		return 0;
-	}
-	int& ret = dp[x];
-	if (ret != -1) return ret;
-
-	vector<int> candidates = {
-		solve(x * 3),
-		solve(x * 2),
-		solve(x + 1)
-	};
-	sort(candidates.begin(), candidates.end());
-	for (int candidate : candidates) {
-		if (candidate != 0) {
-			return candidate + 1;
-		}
-	}
-	return 0;
-}
+int dp[1000001];
+int trace[1000001];  // trace[i] = i ´ÙÀ½¿¡ ÀÌµ¿ÇÒ ¼ıÀÚ
 
 int main() {
-	cin >> n;
-	memset(dp, -1, sizeof(dp));
-	solve(1);
+	int n; cin >> n;
+	for (int i = n; i >= 1; i--) {
+		dp[i] = n - i + 1;
+		trace[i] = i + 1;
+	}
+	for (int i = n; i >= 1; i--) {
+		if (dp[i - 1] > dp[i] + 1) {
+			dp[i - 1] = dp[i] + 1;
+			trace[i - 1] = i;
+		}
+		if (i % 2 == 0) {
+			if (dp[i / 2] > dp[i] + 1) {
+				dp[i / 2] = dp[i] + 1;
+				trace[i / 2] = i;
+			}
+		}
+		if (i % 3 == 0) {
+			if (dp[i / 3] > dp[i] + 1) {
+				dp[i / 3] = dp[i] + 1;
+				trace[i / 3] = i;
+			}
+		}
+	}
+	cout << dp[1] - 1 << endl;
+	vector<int> ans;
+	int  x = 1;
+	while (x <= n) {
+		ans.push_back(x);
+		x = trace[x];
+	}
 
-	cout << ans.size() - 1 << endl;
-	sort(ans.begin(), ans.end(), greater<int>());
+	reverse(ans.begin(), ans.end());
 	for (int x : ans) {
 		cout << x << " ";
-	}
-	cout << endl;
+	} cout << endl;
 	return 0;
 }
