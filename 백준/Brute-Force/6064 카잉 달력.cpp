@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstring>
 using namespace std;
 
 int gcd(int a, int b)
@@ -21,36 +20,29 @@ int lcm(int a, int b)
 
 int main() {
 	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
 	cout.tie(NULL);
+
 	int t; cin >> t;
 	while (t--) {
-		int m, n, x, y;
-		cin >> m >> n >> x >> y;
-
+		int m, n; cin >> m >> n;
+		int x, y; cin >> x >> y;
+		bool flag = false;
 		int max = lcm(m, n);
-		bool find = false;
-		int cnt = 1;
-		for (int i = 0; i < m; i++) {
-			int sx = n * i + y;
-			if (sx > max) {
+		int cnt = 0;
+		for (int i = x; i <= max; i += m) {
+			int j = (m * cnt + x) % n;
+			if (j == 0) {
+				j = n;
+			}
+			if (j == y) {
+				flag = true;
+				cout << i << endl;
 				break;
 			}
-			cnt = sx;
-			if (sx % m == 0) {
-				sx = 10;
-			}
-			else {
-				sx = sx % m;
-			}
-			if (sx == x) {
-				find = true;
-				break;
-			}
+			cnt++;
 		}
-		if (find) {
-			cout << cnt << endl;
-		}
-		else {
+		if (!flag) {
 			cout << -1 << endl;
 		}
 	}
