@@ -1,80 +1,41 @@
 #include <iostream>
-#include <cstring>
-#include <string>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include <string>
 using namespace std;
 
-int n, l;
-string channel;
+bool broken[10];
 
-void getCandidates(int index, vector<int> broken, vector<string> candidates) {
-	if (index == channel.length()) return;
-	int number = channel[index];
-	string answer = "";
-	int closest;
-	for (int i = number; i >= 0; i--) {
-		if (find(broken.begin(), broken.end(), i) == broken.end()) {
-			closest = i;
-			break;
-		}
-	}
-	for (int i = number + 1; i <= 9; i++) {
-		if (find(broken.begin(), broken.end(), i) == broken.end()) {
-			if (number - closest > number - i) {
-				closest = i;
-			}
-			else if (number - closest == number - i) {
-				answer.append(to_string(i));
-			}
-			break;
-		}
-	}
-	answer.append(to_string(closest));
-	candidates.push_back(answer);
-	getCandidates(index + 1, broken, candidates);
+int length(int channel) {
+	return to_string(channel).length();
 }
 
-void getChannels(int index, vector<string> candidates, string number, vector<int> answer) {
-	if (index == channel.length()) {
-		answer.push_back(stoi(number));
-		return;
+bool check(int channel) {
+	string channels = to_string(channel);
+	for (char channel : channels) {
+		if (broken[channel - '0']) {
+			return false;
+		}
 	}
-	string candidate = candidates[index];
-	for (char c : candidate) {
-		string next = number + c;
-		getChannels(index + 1, candidates, number, answer);
-	}
+	return true;
 }
 
 int main() {
-	cin >> n;
-	channel = to_string(n);
-	cin >> l;
-	vector<int> broken(l);
-	for (int i = 0; i < l; i++) {
-		cin >> broken[i];
+	int n; cin >> n;
+	int m; cin >> m;
+	for (int i = 0; i < m; i++) {
+		int num; cin >> num;
+		broken[num] = true;
 	}
 
-	int min;
-	if (n > 100) {
-		min = n - 100;
-	}
-	else {
-		min = 100 - n;
-	}
-
-	vector<string> candidates;
-	getCandidates(0, broken, candidates);
-	vector<int> channels;
-	getChannels(0, candidates, "", channels);
-
-	for (int c : channels) {
-		if (abs(n - c) < min) {
-			min = abs(n - c) + channel.length();
+	int ret = abs(n - 100); // +, -만 눌러서 채널 이동
+	for (int i = 0; i < n + abs(n - 100); i++) {
+		if (check(i)) {
+			int cand = length(i) + abs(n - i);
+			if (ret > cand) {
+				ret = cand;
+			}
 		}
 	}
-	cout << min << endl;
+	cout << ret << endl;
 	return 0;
 }
