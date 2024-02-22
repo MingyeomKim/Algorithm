@@ -16,6 +16,7 @@ int n, m, k;
 void spring(vector<tuple<int, int, int>>& die) {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
+			if (trees[i][j].empty()) continue;
 			vector<int> changed;
 			for (int tree : trees[i][j]) {
 				if (board[i][j] >= tree) {
@@ -40,15 +41,20 @@ void fall() {
 	for (int y = 0; y < n; y++) {
 		for (int x = 0; x < n; x++) {
 			for (int tree : trees[y][x]) {
-				if (tree % 5 == 0) {
+				if (tree % 5 == 0) { // 번식하는 나무
 					for (int d = 0; d < 8; d++) {
 						int ny = y + dy[d], nx = x + dx[d];
 						if (ny < 0 || ny >= n || nx < 0 || nx >= n) continue;
 						trees[ny][nx].push_back(1);
-						sort(trees[ny][nx].begin(), trees[ny][nx].end());
 					}
 				}
 			}
+		}
+	}
+
+	for (int y = 0; y < n; y++) {
+		for (int x = 0; x < n; x++) {
+			sort(trees[y][x].begin(), trees[y][x].end());
 		}
 	}
 }
@@ -80,8 +86,8 @@ int main() {
 	for (int i = 0; i < m; i++) {
 		int x, y, z; cin >> x >> y >> z;
 		x--; y--;
-		trees[y][x].push_back(z);
-		sort(trees[y][x].begin(), trees[y][x].end());
+		trees[x][y].push_back(z);
+		sort(trees[x][y].begin(), trees[x][y].end());
 	}
 
 	for (int i = 0; i < k; i++) {
@@ -99,7 +105,6 @@ int main() {
 
 		// 겨울
 		winter();
-
 	}
 	int ret = 0;
 	for (int i = 0; i < n; i++) {
@@ -110,4 +115,3 @@ int main() {
 	cout << ret << endl;
 	return 0;
 }
-
