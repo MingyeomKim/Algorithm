@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
+#include <cstring>
 using namespace std;
 
 vector<int> v;
@@ -9,6 +11,9 @@ int route[1001];
 int final_route[1001];
 
 int main() {
+	ios_base::sync_with_stdio(false); 
+	cin.tie(NULL); cout.tie(NULL);
+
 	int n;
 	cin >> n;
 	for (int i = 0; i < n; i++) {
@@ -24,12 +29,14 @@ int main() {
 		int index = q.front();
 		q.pop();
 		int current = v[index];
-		int cnt = 0;
+		int cnt = 1; 
 		for (int i = index + 1; i < n; i++) {
 			int next = v[i];
 			if (current < next) {
 				cnt++;
-				route[next] = current;
+				route[i] = index;
+				index = i;
+				current = next;
 			}
 			else {
 				if (!visited[i]) {
@@ -46,6 +53,7 @@ int main() {
 			}
 		}
 	}
+
 	cout << ret << endl;
 	int current = 0;
 	for (int i = n - 1; i >= 0; i--) {
@@ -56,8 +64,11 @@ int main() {
 	}
 
 	vector<int> vv;
-	while (final_route[current] != -1) {
+	while (true) {
 		vv.push_back(v[current]);
+		if (final_route[current] == -1) {
+			break;
+		}
 		current = final_route[current]; // down
 	}
 	reverse(vv.begin(), vv.end());
