@@ -5,15 +5,45 @@
 using namespace std;
 
 int board[51][51];
-int dp[51][51];
+int dp[51][51]; 
+bool visited[51][51];
 
 int dy[4] = { -1, 1, 0, 0 };
 int dx[4] = { 0, 0, 1, -1 };
+int n, m;
+
+
+bool isOut(int y, int x) {
+	return y < 0 || y >= n || x < 0 || x >= m || board[y][x] == 0;
+}
+
+int dfs(int y, int x) {
+	if (isOut(y, x)) {
+		return 0;
+	}
+	if (visited[y][x]) {
+		cout << -1 << endl;
+		exit(0);
+	}
+	int& ret = dp[y][x]; 
+	if (ret != -1) return ret;
+
+	visited[y][x] = true;
+	ret = 0;
+	int move = board[y][x];
+	for (int direction = 0; direction < 4; direction++) {
+		int ny = y + (dy[direction] * board[y][x]);
+		int nx = x + (dx[direction] * board[y][x]);
+		ret = max(ret, dfs(ny, nx) + 1);
+	}
+	visited[y][x] = false;
+	return ret;
+}
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL); cout.tie(NULL);
-	int n, m;
+	ios_base::sync_with_stdio(false); 
+	cin.tie(NULL); cout.tie(NULL); 
+
 	cin >> n >> m;
 	for (int i = 0; i < n; i++) {
 		string s; cin >> s;
@@ -26,48 +56,9 @@ int main() {
 			}
 		}
 	}
-	memset(dp, -1, sizeof(dp));
-	queue<pair<int, int>> q;
-	q.push(make_pair(0, 0));
-	dp[0][0] = 0;
-	while (!q.empty()) {
-		int y, x;
-		tie(y, x) = q.front();
-		q.pop();
-		int move = board[y][x];
-		for (int direction = 0; direction < 4; direction++) {
-			int ny = y + dy[direction], nx = x + dx[direction];
-			for (int k = 1; k < move; k++) {
-				ny = ny + dy[direction];
-				nx = nx + dx[direction];
-			}
-			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
-			if (board[ny][nx] == 0) continue;
-			if (dp[ny][nx] != -1) {
-				// 이미 방문한 곳이다. 반복이 가능하므로 무한히 움직일 수 있는 경우임
-				if (dp[ny][nx] + 1 == dp[y][x]) { // 핑퐁되는 경우
-					cout << -1 << endl;
-					return 0;
-				}
-				dp[ny][nx] = max(dp[ny][nx], dp[y][x] + 1);
-				// cout << "ny : " << ny << ", nx : " << nx << " dp[ny][nx] : " << dp[ny][nx] << endl;
-				q.push(make_pair(ny, nx));
-				continue;
-			}
-			dp[ny][nx] = dp[y][x] + 1;
-			q.push(make_pair(ny, nx));
-			// cout << "ny : " << ny << ", nx : " << nx << " dp[ny][nx] : "  << dp[ny][nx] << endl;
-		}
-	}
 
-	int ret = 0;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (ret < dp[i][j]) {
-				ret = dp[i][j];
-			}
-		}
-	}
-	cout << ret + 1 << endl;
+	memset(dp, -1, sizeof(dp));
+	cout << dfs(0, 0) << endl;
+
 	return 0;
 }
