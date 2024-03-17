@@ -2,72 +2,64 @@
 #include <vector>
 using namespace std;
 
+int board[11][11]; 
+int ret = 987654321;
+int paper[6] = { 0, };
+
 bool isOut(int y, int x) {
-	return y < 0 || y >= 10 || x < 0 || x >= 10;
+	return y < 0 || y > 10 || x < 0 || x > 10;
 }
 
-int ret = -1;
-void solve(vector<vector<bool>>& board, vector<int>& paper) {
-	bool isOver = true;
-	for (int i = 1; i <= 5; i++) {
-		if (paper[i] > 0) {
-			isOver = false;
-		}
-	}
-
-	bool isCompleted = true;
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (board[i][j] == 1) {
-				isCompleted = false;
+bool possible(int r, int c, int k) {
+	for (int i = r; i < r + k; i++) {
+		for (int j = c; j < c + k; j++) {
+			if (board[i][j] == 0) {
+				return false;
 			}
 		}
 	}
-	if (isCompleted) {
-		int count = 0;
-		for (int i = 1; i <= 5; i++) {
-			count += (5 - paper[i]);
+	return true;
+}
+
+void solve(int r, int c, int cnt) {
+	while (board[r][c] == 0) {
+		c++;
+		if (c >= 10) {
+			r++; 
+			if (r >= 10) {
+				if (ret == -1 || ret > cnt) {
+					ret = cnt;
+				}
+				return;
+			}
+			c = 0;
 		}
-		if (ret == -1 || ret > count) {
-			ret = count;
-		}
+	}
+
+	if (cnt >= ret) {
 		return;
 	}
 
-	if (isOver) { // 색종이가 더 없는데 아직 안끝난 상황
-		return;
-	}
+	for (int k = 5; k >= 1; k--) {
+		if (isOut(r + k , c + k )) {
+			continue;
+		}
+		if (paper[k] >= 5) {
+			continue;
+		}
 
-	for (int i = 0; i < 10; i++) {
-		for (int j = 0; j < 10; j++) {
-			if (board[i][j] == true) { // 얘를 덮어야해.
-				for (int k = 1; k <= 5; k++) { // 종이 크기
-					if (paper[k] == 0) continue;
-					if (isOut(i + k - 1, j + k - 1)) continue; // 종이를 놓을 수 없음
-					bool possible = true; // k 크기의 종이를 놓을 수 있나?
-					for (int y = i; y < i + k; y++) {
-						for (int x = j; x < j + k; x++) {
-							if (!board[y][x]) {
-								possible = false;
-							}
-						}
-					}
-					if (possible) {
-						for (int y = i; y < i + k; y++) {
-							for (int x = j; x < j + k; x++) {
-								board[y][x] = false;
-							}
-						}
-						paper[k]--;
-						solve(board, paper);
-
-						for (int y = i; y < i + k; y++) {
-							for (int x = j; x < j + k; x++) {
-								board[y][x] = true;
-							}
-						}
-						paper[k]++;
-					}
+		if (possible(r, c, k)) {
+			paper[k]++;
+			for (int i = r; i < r + k; i++) {
+				for (int j = c; j < c + k; j++) {
+					board[i][j] = 0;
+				}
+			}
+			solve(r, c, cnt + 1);
+			paper[k]--; 
+			for (int i = r; i < r + k; i++) {
+				for (int j = c; j < c + k; j++) {
+					board[i][j] = 1;
 				}
 			}
 		}
@@ -79,24 +71,16 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	vector<vector<bool>> board(10);
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			bool flag; cin >> flag;
-			board[i].push_back(flag);
+			cin >> board[i][j];
 		}
 	}
 
-	vector<int> paper(6);  // 남아있는 종이 개수
-	for (int i = 1; i <= 5; i++) {
-		paper[i] = 5;
+	solve(0, 0, 0); 
+	if (ret == 987654321) {
+		ret = -1; 
 	}
-	solve(board, paper);
 	cout << ret << endl;
 	return 0;
 }
-
-/*
-* 현재 최선을 다하는 게 전체적으로는 최선이 아닐 수 있다.
-* A 지점에서 놓을 수 있는 모든 색종이를 테스트해봐야한다.
-*/
