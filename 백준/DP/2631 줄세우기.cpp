@@ -16,43 +16,54 @@ bool check(string s) {
 	return true;
 }
 
-string change(string s, int i, int j) { // j번째 숫자를 i번째 숫자 앞으로
-	queue<char> q;
+string change(string s, int i, int j) {
+	queue<int> q;
 	for (int k = 0; k < s.length(); k++) {
-		if (k == j) continue;
+		if (k == i || k == j) {
+			continue;
+		}
 		q.push(s[k]);
 	}
-
-	string changed = "";
-	int size = q.size();
-	for (int k = 0; k < size; k++) {
-		if (k == i) {
+	string changed = ""; 
+	for (int k = 0; k < s.length(); k++) {
+		if (i == k) {
 			changed.push_back(s[j]);
 		}
-		changed.push_back(q.front());
-		q.pop();
+		else if (i + 1 == k) {
+			changed.push_back(s[i]);
+		}
+		else {
+			changed.push_back(q.front());
+			q.pop();
+		}
 	}
 	return changed;
 }
 
-string change_reverse(string s, int i, int j) { // j번째 숫자를 i번째 숫자 뒤로
-	queue<char> q;
+string change_reverse(string s, int i, int j) {
+	queue<int> q;
 	for (int k = 0; k < s.length(); k++) {
-		if (k == j) continue;
+		if (k == i || k == i + 1) {
+			continue;
+		}
 		q.push(s[k]);
 	}
-
 	string changed = "";
-	int size = q.size();
-	for (int k = 0; k < size; k++) {
-		if (k == i) {
-			changed.push_back(s[j]);
+	for (int k = 0; k < s.length(); k++) {
+		if (i == k) {
+			changed.push_back(s[i + 1]);
 		}
-		changed.push_back(q.front());
-		q.pop();
+		else if (j == k) {
+			changed.push_back(s[i]);
+		}
+		else {
+			changed.push_back(q.front());
+			q.pop();
+		}
 	}
 	return changed;
 }
+
 
 int main() {
 	cin >> n;
@@ -72,7 +83,9 @@ int main() {
 		string s; int count;
 		tie(s, count) = q.front();
 		q.pop();
-
+		if (s == "3452617") {
+			int a = 1;
+		}
 		if (check(s)) {
 			if (ret == -1 || ret > count) {
 				ret = count;
@@ -88,7 +101,7 @@ int main() {
 						q.push(make_pair(s, count + 1));
 						visited.insert(s);
 					}
-					s = change_reverse(s, j, i);
+					s = change_reverse(s, i, j);
 				}
 			}
 		}
