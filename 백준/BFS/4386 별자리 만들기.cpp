@@ -1,84 +1,84 @@
-#include <iostream>
-#include <queue>
+#include <iostream> 
+#include <vector>
 #include <cmath>
-using namespace std;
+#include <algorithm>
+using namespace std; 
 
-// map[i] = (k, j) : i 별과 j 별의 거리가 k
-priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>>> map[101];
-bool visited[101];
+int parent[101];
 
-double getDistance(pair<double, double> from, pair<double, double> to) {
-	double dx = from.first - to.first;
-	double dy = from.second - to.second;
-	return sqrt(dx * dx + dy * dy);
+struct Edge {
+	double value; 
+	int from; 
+	int to;
+
+	bool operator < (const Edge& other) {
+		return this->value < other.value;
+	}
+
+	bool operator > (const Edge& other) {
+		return this->value > other.value;
+	}
+};
+
+double distance(pair<double, double> from, pair<double, double> to) {
+	double dy = from.first - to.first; 
+	double dx = from.second - to.second; 
+	return sqrt(dy * dy + dx * dx);
 }
 
-bool allChecked(int n) {
-	for (int i = 1; i <= n; i++) {
-		if (!visited[i]) {
-			return false;
-		}
+int find_parent(int x) {
+	if (parent[x] == x)return x;
+	else return find_parent(parent[x]);
+}
+
+bool sameParent(int x, int y) {
+	x = find_parent(x); 
+	y = find_parent(y); 
+	if (x == y) {
+		return true;
 	}
-	return true;
+	return false;
+}
+
+void union_(int x, int y) {
+	x = find_parent(x); 
+	y = find_parent(y); 
+	if (x != y) {
+		parent[y] = x;
+	}
 }
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	int n; cin >> n;
-	vector<pair<double, double>> coordinats(n + 1);
-	for (int i = 1; i <= n; i++) {
-		cin >> coordinats[i].first >> coordinats[i].second;
+	ios_base::sync_with_stdio(false); 
+	cin.tie(NULL); 
+	cout.tie(NULL);
+
+	int n; cin >> n; 
+	vector<pair<double, double>> v;
+	for (int i = 0; i < n; i++) {
+		double x, y; cin >> x >> y; 
+		v.emplace_back(x, y);
+		parent[i] = i;
 	}
 
-	for (int i = 1; i < n; i++) {
-		for (int j = i + 1; j <= n; j++) {
-			double distance = getDistance(coordinats[i], coordinats[j]);
-			map[i].push(make_pair(distance, j));
-			map[j].push(make_pair(distance, i));
+	vector<Edge> map;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			double dist = distance(v[i], v[j]);
+			map.push_back({ dist, i, j });
 		}
 	}
-
-	/*
-	queue<int> q;
-	visited[1] = true;
-	q.push(1);
-	while (!q.empty()) {
-		int currnet = q.front();
-		q.pop();
-
-		auto pq = map[currnet];
-		while (!pq.empty()) {
-			auto p = pq.top();
-			double distance = p.first;
-			int next = p.second;
-
-			if (visited[next]) continue;
-			visited[next] = true;
-			q.push(next);
-		}
-	}*/
+	sort(map.begin(), map.end());
 
 	double ret = 0;
-	int current = 1;
-	visited[current] = true;
-	while (!allChecked(n)) {
-		auto pq = map[current];
-		while (!pq.empty()) {
-			auto p = map[current].top();
-			map[current].pop();
-
-			double distance = p.first;
-			int next = p.second;
-			if (visited[next]) continue;
-
-			visited[next] = true;
-			ret += distance;
-			current = next;
-			break;
+	for (int i = 0; i < map.size(); i++) {
+		Edge edge = map[i];
+		if (!sameParent(edge.from, edge.to)) {
+			union_(edge.from, edge.to);
+			ret += edge.value;
 		}
 	}
-	cout.precision(3);
-	cout << ret << endl;
+	cout.precision(2);
+	cout << ret << endl; 
 	return 0;
 }
