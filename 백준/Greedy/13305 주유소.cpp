@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-long long price[100001];
+long long price[100001];  
 long long length[100001];
 
 int main() {
