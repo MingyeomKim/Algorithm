@@ -1,49 +1,83 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-using namespace std; 
+using namespace std;
 
-int n; 
+vector<string> words;
+string letters = "";
 
-int count(int set, vector<int>& words) {
+int count(int bit) {
 	int cnt = 0; 
-	for (int word : words) // word : i번째 단어를 구성하는 알파벳 집합
-		if ((word & ((1 << 26) - 1 - set)) == 0) // 배우지 않은 알파벳이 단어에 있는지 검사
-			cnt++; 
-	return cnt; 
-}
+	for (string word : words) {
+		bool canRead = true;
+		for (char letter : word) {
+			bool know = false;
+			int sz = letters.length();
+			for (int j = 0; j < sz; j++) {
+				if ((bit & (1 << j))&& letters[j] == letter) {
+					know = true;
+				}
 
-// index : 현재 검사하는 알파벳 
-// k : 배워야하는 단어의 개수
-// set : 배운 알파벳 집합의 비트마스크
-// words : 각 단어에 포함된 알파벳 집합의 비트마스크
-int go(int index, int k, int set, vector<int> &words) {
-
-	if (k < 0) return  0; 
-	if (index == 26) return count(set, words); 
-
-	int ret = 0; 
-	// index번째 알파벳을 선택하는 경우
-	int cand = go(index + 1, k - 1, set | (1 << index), words); 
-	if (ret < cand) ret = cand;
-
-	// index번째 알파벳을 배우지 않는 경우
-	if (index != 'a' - 'a' && index != 'n' - 'a' && index != 't' - 'a' && index != 'i' - 'a' && index != 'c' - 'a') {
-		cand = go(index + 1, k, set, words);
-		if (ret < cand) ret = cand; 
+				if (letter == 'a' || letter == 'n' || letter == 't' || letter == 'i' || letter == 'c') {
+					know = true;
+				}
+			}
+			if (!know) {
+				canRead = false; 
+			}
+		}
+		if (canRead) {
+			cnt++;
+		}
 	}
-	return ret; 
+	return cnt;
+}	
+
+int bitCount(int bit) {
+	if (bit == 0) {
+		return 0;
+	}
+	return bit % 2 + bitCount(bit / 2);
 }
 
 int main() {
-	int k;
-	cin >> n >> k;
-	vector<int> words(n); 
+	ios_base::sync_with_stdio(false); 
+	cin.tie(NULL); 
+	cout.tie(NULL); 
+
+	int n, k; cin >> n >> k; 
+	
 	for (int i = 0; i < n; i++) {
 		string s; cin >> s; 
-		for (char x : s) words[i] |= (1 << (x - 'a')); 
+		s = s.substr(4, s.length() - 8);
+		words.push_back(s);
+		for (int j = 0; j < s.length(); j++) {
+			char letter = s[j];
+			if (letter == 'a' || letter == 'n' || letter == 't' || letter == 'i' || letter == 'c') {
+				continue;
+			}
+			letters.push_back(letter);
+		}
 	}
+	unique(letters.begin(), letters.end()); 
 
-	cout << go(0, k, 0, words) << endl;
-	return 0; 
+	if (k < 5) {
+		cout << 0 << endl;
+		return 0;
+	}
+	k -= 5; // 고정 문자 제거
+
+	int ret = 0;
+	int sz = letters.length();
+	for (int bit = 0; bit < (1 << sz); bit++) {
+		if (bitCount(bit) != k) { // 이걸 없애고 싶다
+			continue;
+		}
+		int cand = count(bit); 
+		if (ret < cand) {
+			ret = cand;
+		}
+	}
+	cout << ret << endl; 
+	return 0;
 }
