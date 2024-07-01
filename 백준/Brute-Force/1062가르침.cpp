@@ -4,9 +4,9 @@
 using namespace std;
 
 vector<string> words;
-string letters = "";
+string letters = ""; 
 
-int count(int bit) {
+int count(int bit) { // 특정 알파벳 조합에서 읽을 수 있는 단어의 개수
 	int cnt = 0; 
 	for (string word : words) {
 		bool canRead = true;
@@ -14,6 +14,7 @@ int count(int bit) {
 			bool know = false;
 			int sz = letters.length();
 			for (int j = 0; j < sz; j++) {
+				// 검증
 				if ((bit & (1 << j))&& letters[j] == letter) {
 					know = true;
 				}
@@ -59,7 +60,8 @@ int main() {
 			letters.push_back(letter);
 		}
 	}
-	unique(letters.begin(), letters.end()); 
+	sort(letters.begin(), letters.end());
+	letters.erase(unique(letters.begin(), letters.end()), letters.end());
 
 	if (k < 5) {
 		cout << 0 << endl;
@@ -70,7 +72,7 @@ int main() {
 	int ret = 0;
 	int sz = letters.length();
 	for (int bit = 0; bit < (1 << sz); bit++) {
-		if (bitCount(bit) != k) { // 이걸 없애고 싶다
+		if (bitCount(bit) != k) { // K개 글자를 모두 가르치는 조합의 경우만 검증
 			continue;
 		}
 		int cand = count(bit); 
