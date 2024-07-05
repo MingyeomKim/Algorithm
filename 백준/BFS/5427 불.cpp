@@ -7,79 +7,99 @@ using namespace std;
 int dy[4] = { -1, 1, 0, 0 };
 int dx[4] = { 0, 0, 1, -1 };
 
-int board[1001][1001];
-int dist[1001][1001];
+char board[1001][1001];
 
 int w, h;
 bool isOut(int y, int x) {
 	return y < 0 || y >= h || x < 0 || x >= w;
 }
 
-int main() {
-	int t; cin >> t;
-	while (t--) {
-		memset(dist, -1, sizeof(dist));
-		memset(board, -1, sizeof(board));
-		cin >> w >> h;
-		int sy, sx;
-		queue<tuple<int, int, int>> fire;
-		for (int i = 0; i < h; i++) {
-			string s; cin >> s;
-			for (int j = 0; j < w; j++) {
-				if (s[j] == '@') {
-					sy = i;
-					sx = j;
-				}
-				else if (s[j] == '*') {
-					fire.push(make_tuple(i, j, 0));
-				}
-				board[i][j] = 0;
-			}
-		}
+queue<pair<int, int>> sq;
+queue<pair<int, int>> fq;
 
-		while (!fire.empty()) {
-			int y, x, count;
-			tie(y, x, count) = fire.front();
-			fire.pop();
+void moveFire() {
+	int size = fq.size(); 
+	for (int i = 0; i < size; i++) {
+		int y, x; 
+		tie(y, x) = fq.front(); 
+		fq.pop();
+		for (int dir = 0; dir < 4; dir++) {
+			int ny = y + dy[dir]; 
+			int nx = x + dx[dir];
+			if (isOut(ny, nx) || board[ny][nx] != '.') {
+				continue;
+			}
+			board[ny][nx] = '*';
+			fq.push(make_pair(ny, nx)); 
+		}
+	}
+}
+
+int move() {
+	int count = 0;
+	while (!sq.empty()) {
+		count++; 
+
+		// 불 이동시키기
+		moveFire();
+
+		// 상근 이동시키기
+		int size = sq.size();
+		for (int i = 0; i < size; i++) {
+			int y, x;
+			tie(y, x) = sq.front();
+			sq.pop();
 			for (int dir = 0; dir < 4; dir++) {
 				int ny = y + dy[dir];
 				int nx = x + dx[dir];
-				if (isOut(ny, nx) || board[ny][nx] == -1 || board[ny][nx] == '*') {
+				if (isOut(ny, nx)) {
+					return count;
+				}
+				if (board[ny][nx] != '.') {
 					continue;
 				}
-				board[ny][nx] = '*';
-				fire.push(make_tuple(ny, nx, count + 1));
+				board[ny][nx] = '@';
+				sq.push(make_pair(ny, nx)); 
+			}
+		}
+	}
+	return -1;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL); 
+
+	int t; 
+	cin >> t;
+	while (t--) {
+		while (!sq.empty()) {
+			sq.pop(); 
+		}
+		while (!fq.empty()) {
+			fq.pop();
+		}
+		cin >> w >> h;
+		for (int i = 0; i < h; i++) {
+			string s; cin >> s;
+			for (int j = 0; j < w; j++) {
+				board[i][j] = s[j];
+				if (s[j] == '@') {
+					sq.push(make_pair(i, j));
+				}
+				else if (s[j] == '*') {
+					fq.push(make_pair(i, j));
+				}
 			}
 		}
 
-		queue<tuple<int, int, int>> q;
-		q.push(make_tuple(sy, sx, 0));
-		dist[sy][sx] = 0;
-		bool flag = false;
-		while (!q.empty()) {
-			int y, x, count;
-			tie(y, x, count) = q.front();
-			q.pop();
-			for (int dir = 0; dir < 4; dir++) {
-				int ny = y + dy[dir], nx = x + dx[dir];
-				if (dist[ny][nx] != -1 || board[ny][nx] == '#') {
-					continue;
-				}
-				if (board[ny][nx] == '*'&&)
-					if (isOut(ny, nx)) {
-						cout << dist[y][x] + 1 << endl;
-						break;
-					}
-				q.push(make_tuple(ny, nx, count + 1));
-				dist[ny][nx] = dist[y][x] + 1;
-			}
-
-			if (flag) {
-				break;
-			}
+		int count = move();
+		if (count == -1) {
+			cout << "IMPOSSIBLE" << endl; 
 		}
-		if (!flag) {
-			cout << "IMPOSSIBLE" << endl;
+		else {
+			cout << count << endl; 
 		}
 	}
 	return 0;
