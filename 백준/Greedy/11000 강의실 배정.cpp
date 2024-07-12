@@ -1,50 +1,51 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <queue>
+#include <vector>
 using namespace std;
 
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
 	int n; cin >> n;
-
 	vector<pair<int, int>> v(n);
-
 	for (int i = 0; i < n; i++) {
-		int s, t; cin >> s >> t;
-		v[i].first = s;
-		v[i].second = t;
+		int s, t;
+		cin >> s >> t;
+		v[i] = make_pair(s, t);
 	}
-
 	sort(v.begin(), v.end());
 
-	int s = v[0].first;
-	int e = v[0].second;
-	int ret = 1;
-	int depth = 1;
+	priority_queue<int, vector<int>, greater<int>> pq;
+	pq.push(v[0].second);
 	for (int i = 1; i < n; i++) {
-		int ss = v[i].first;
-		int ee = v[i].second;
-		if (ss < e) {
-			// ì¤‘ë³µì¸ ê²½ìš°
-			if (e < ee) {
-				s = ss;
-			}
-			else {
-				s = ss;
-				e = ee;
-			}
-			depth++;
+		if (v[i].first < pq.top()) {
+			pq.push(v[i].second);
 		}
-		else { // ì¤‘ë³µì´ ì•„ë‹Œ ê²½ìš°
-			s = ss;
-			e = ee;
-			depth = 1;
-		}
-		if (ret < depth) {
-			ret = depth;
+		else {
+			pq.pop();
+			pq.push(v[i].second);
 		}
 	}
-	cout << ret << endl;
+	cout << pq.size() << endl;
 	return 0;
 }
+
+/*
+
+// Áö±Ý È¸ÀÇ°¡ °¡Àå ÀÏÂï ³¡³ª´Â È¸ÀÇ ´ÙÀ½¿¡ ½ÃÀÛÇÑ´Ù¸é °ãÄ¡Áö ¾Ê´Â´Ù
+pq.top() <= s
+	pq.pop();
+	pq.push(e)
+// Áö±Ý È¸ÀÇ°¡ °¡Àå ÀÏÂï ³¡³ª´Â È¸ÀÇ¿Í °ãÄ£´Ù¸é ´Ù¸¥ È¸ÀÇ½ÇÀ» ½á¾ß ÇÑ´Ù.
+pq.top() > s
+	pq.push(e);
+
+1 3
+2 4
+3 5
+
+pq : 5 4 3
+2 < 3 // ÇöÀç ½ÃÀÛ ½Ã°£ÀÌ pq.top()º¸´Ù ÀÛÀº °æ¿ì °­ÀÇ½ÇÀÌ ÇÑ °³ ´õ ÇÊ¿äÇÏ´Ù. pq.push(e);
+3 < 4
+
+// ÇöÀç ½ÃÀÛ ½Ã°£ÀÌ pq.top()º¸´Ù Å©°Å³ª °°Àº °æ¿ì °­ÀÇ½ÇÀÌ ÇÊ¿ä¾ø´Ù. pq.pop(); pq.push(e);
+*/
