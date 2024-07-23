@@ -12,11 +12,14 @@ bool dfs(int now, int parent) {
 	for (int next : graph[now]) {
 		if (check[next]) {
 			if (next != parent) {
-				return false; // 사이클이 있는 경우
+				return false; 
 			}
 			continue;
 		}
-		dfs(next, now);
+		bool ret = dfs(next, now);
+		if (!ret) {
+			return false;
+		}
 	}
 	return true;
 }
