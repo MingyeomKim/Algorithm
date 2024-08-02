@@ -1,21 +1,23 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <set>
 using namespace std;
+
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	int n, k; cin >> n >> k;
-
-	vector<int> v(k + 1);
-	v[0] = 987654321;
-	for (int i = 1; i <= n; i++) {
+	int n, k; cin >> n >> k; 
+	int cnt = 0;
+	set<int> check;
+	for (int i = 0; i < n; i++) {
 		int x; cin >> x;
-		v[x]++;
+		check.insert(x);
+		if (check.size() == k) { // 모든 숫자를 다 방문
+			check.clear();
+			cnt++;
+		}
 	}
-	sort(v.begin(), v.end());
-	cout << v[0] + 1 << endl;
+	cout << cnt + 1 << endl; 
 	return 0;
 }
