@@ -4,30 +4,38 @@
 #include <string>
 using namespace std;
 
-int brute_force(string a, string b, string c) {
-	vector<int> candidates;
-	candidates.push_back(stoi(a + b));
-	candidates.push_back(stoi(a + c));
-	candidates.push_back(stoi(b + c));
-	candidates.push_back(stoi(b + a));
-	candidates.push_back(stoi(c + a));
-	candidates.push_back(stoi(c + b));
-
-	sort(candidates.begin(), candidates.end());
-	return candidates[2];
-}
-
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
+	cout.tie(NULL);
 
 	int n; cin >> n;
 	vector<int> v(n);
 	for (int i = 0; i < n; i++) {
 		cin >> v[i];
 	}
+
 	sort(v.begin(), v.end());
 
-	cout << brute_force(to_string(v[0]), to_string(v[1]), to_string(v[2])) << endl;
+	vector<int> candidates;
+	if (v.size() == 3) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = i + 1; j < 3; j++) {
+				candidates.push_back(stoi(to_string(v[i]) + to_string(v[j])));
+				candidates.push_back(stoi(to_string(v[j]) + to_string(v[i])));
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < 4; i++) {
+			for (int j = i + 1; j < 4; j++) {
+				candidates.push_back(stoi(to_string(v[i]) + to_string(v[j])));
+				candidates.push_back(stoi(to_string(v[j]) + to_string(v[i])));
+			}
+		}
+	}
+
+	sort(candidates.begin(), candidates.end());
+	cout << candidates[2] << endl;
 	return 0;
 }
