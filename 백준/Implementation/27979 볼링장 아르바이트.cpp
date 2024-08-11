@@ -23,8 +23,12 @@ int main() {
 		}
 	}
 
-	for (int i = 0; i < n; i++) {
-		if (!check[i] && min > weight[i]) {
+	max = 0;
+	for (int i = n - 1; i >= 0; i--) {
+		if (check[i] && max < weight[i]) {
+			max = weight[i];
+		}
+		else if (!check[i] && max > weight[i]) {
 			cnt++;
 		}
 	}
