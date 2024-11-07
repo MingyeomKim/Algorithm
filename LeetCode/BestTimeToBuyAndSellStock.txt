@@ -1,0 +1,21 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min = prices[0];
+        int answer = 0;
+        for(int i = 0; i< prices.length; i++) {
+            if (min > prices[i]) {
+                min = prices[i];
+            }
+            if (answer < prices[i] - min) {
+                answer = prices[i] - min;
+            }
+        }
+        return answer;
+    }
+}
+
+/**
+problem: maximum profit by choosing buying day and sellign day
+solution: find minumum and maximum days
+    - save minimum number and find max diff for all of the number
+*/
