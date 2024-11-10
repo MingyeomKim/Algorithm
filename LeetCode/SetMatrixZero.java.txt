@@ -1,0 +1,51 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        bool isFirstRowZero = false;
+        bool isFirstColumnZero = false;
+        for(int i = 0; i < matrix.size(); i++) {
+            for(int j = 0; j < matrix[0].size(); j++) {
+                if(matrix[i][j] == 0) {
+                    matrix[i][0] = 0; // (1, 0)
+                    matrix[0][j] = 0; // (0, 1)
+                    if(i == 0) {
+                        isFirstRowZero = true;
+                    }
+                    if(j == 0) {
+                        isFirstColumnZero = true;
+                    }
+                }
+            }
+        }
+
+        for(int i = 1; i < matrix.size(); i++) {
+            for(int j = 1; j < matrix[0].size(); j++) { 
+                if(matrix[0][j] == 0 || matrix[i][0] == 0) {
+                    matrix[i][j] = 0;
+                } 
+            }
+        }
+
+        // search first row
+        if(isFirstRowZero) {
+            for(int j = 0; j < matrix[0].size(); j++) {
+                matrix[0][j] = 0;
+            }
+        }
+        // search first column
+        if(isFirstColumnZero) {
+            for(int i = 0; i < matrix.size(); i++) {
+                matrix[i][0]= 0;
+            }
+        }
+    }
+};
+
+/**
+problem: makes adjacent of zero's node to zero. 
+constraint: size of matrix < 200
+    - value of sell can be lower than zero
+solution: 
+    - find zero cells
+    - set zero of all the cells' entire row and column
+*/
