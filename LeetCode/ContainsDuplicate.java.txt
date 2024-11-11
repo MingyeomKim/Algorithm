@@ -1,0 +1,10 @@
+class Solution {
+public
+    bool containsDuplicate(vectorint& nums) {
+        setint st; 
+        for(int num  nums) {
+            st.insert(num);
+        }
+        return st.size() != nums.size();
+    }
+};
