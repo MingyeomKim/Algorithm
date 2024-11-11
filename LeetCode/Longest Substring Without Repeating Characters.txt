@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<pair<char, int>> v;
+        int answer = 0;
+        for(int i = 0; i < s.length(); i++) {
+            int index = alreadyHave(v, s[i]);
+            if(index != -1) { 
+                removeAllBefore(v, index);
+            }
+            v.emplace_back(s[i], i);
+            if(answer < v.size()) {
+                answer = v.size();
+            }
+        }
+        return answer;
+    }
+private: 
+    int alreadyHave(vector<pair<char, int>> v, char s) {
+        for(int i = 0; i < v.size(); i++) {
+            if(v[i].first == s) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    void removeAllBefore(vector<pair<char, int>> & v, int index) {
+        // input: (s, 1) (d, 2) (e, 5), index = 1 
+        // output: (e, 5)
+        reverse(v.begin(), v.end()); 
+        for(int i = 0; i <= index; i++) {
+            v.pop_back();
+        }
+        reverse(v.begin(), v.end());
+    }
+};
+
+/**
+problem: find longest substring without duplicated char. 
+contraint: length of the string = 50000
+solution: when we find duplicated element, remove all elements add before the duplicated element.
+- (1) add set with order
+- (2) add increasingly
+- (3) when we find duplicated element, remove all elements add before the duplicated element.
+- (4) get max size of set for each loop.
+
+- pwwkew
+*/
