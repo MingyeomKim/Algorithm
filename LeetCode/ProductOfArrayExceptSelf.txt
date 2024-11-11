@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int zero = 0; 
+        int productExceptZero = 1;
+        for(int num : nums) {
+            if(num == 0) {
+                zero++;
+            } else{
+                productExceptZero *= num;
+            }
+        }
+        
+        vector<int> answer = vector<int>(nums.size());
+        if(zero >= 2)  {
+            return vector<int>(nums.size(), 0);
+        } else if(zero == 1) {
+            for(int i = 0; i <nums.size(); i++) {
+                if(nums[i] == 0) {
+                    answer[i] = productExceptZero;
+                } else{
+                    answer[i] = 0;
+                }
+            }
+            return answer;
+        } else {
+            for(int i = 0; i < nums.size(); i++) {
+                answer[i] = productExceptZero / nums[i];
+            }
+            return answer;
+        }
+    }
+};
+
+/**
+problem: multiply all of the array except nums[i]
+contrains: 
+    - min and max size of nums : 10^5
+    - min and max element value of nums : -30 ~ 30 
+    - what can I choose data structure for the product of all elements
+solution:
+    - O(n^2) multiply all of the numbers except one number 
+    - O(n) multiply all of the numbers and divide each number
+    - [1, 2, 3, 4] = 24
+    - [24, 12, 8, 6] 
+    - [-1, 1, -3, 3] = 9
+    - [-9, 9, -3, 3]
+    - consider the zero element
+    - [-1, 1, 0, -3, 3] = 9
+    - all fo the number except zero number is 0, and the zero number will be 9
+    - [-1, 1, 0, 0, -3, 3] = 9
+    - if there is zero more than 2, all of the number will go zero.
+*/
