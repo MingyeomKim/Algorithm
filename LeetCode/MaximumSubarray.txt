@@ -1,0 +1,74 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        vector<int> prefixSum = calculatePrefixSum(nums);
+        for(int num : prefixSum) {
+            cout << num << " "; 
+        }
+        cout <<endl;
+        int answer = -1;
+        int start = 0; 
+        int end = nums.size() - 1;
+        while(start <= end) { // start and end can be equal
+            int sum = getSum(start, end, prefixSum); 
+            if(answer == -1 || sum > answer) {
+                answer = sum ;
+            }
+            if(nums[start] < nums[end]) {
+                start++;
+            } else {
+                end--;
+            }
+        }
+        return answer; 
+    }
+private: 
+    vector<int> calculatePrefixSum(vector<int> nums) {
+        vector<int> prefixSum = vector<int>(nums.size());
+        prefixSum[0] = nums[0]; 
+        for(int i = 1; i < nums.size(); i++) {
+            prefixSum[i] = prefixSum[i - 1] + nums[i];
+        }
+        return prefixSum;
+    }
+
+    int getSum(int i, int j, vector<int> prefixSum) {
+        // sum (i, j) = prefixSum[j] - prefixSum[i - 1];
+        // if (i == 0) => prefixSum[j]
+        if(i == 0) {
+            return prefixSum[j];
+        }
+        return prefixSum[j] - prefixSum[i - 1];
+    }
+};
+
+/**
+problem: find subarray which sum is max
+constraint: length of nums, range of element of nums
+solution: binary search
+[-2,1,-3,4,-1,2,1,-5,4]
+ l                   r
+    l                r (-2 < 4)
+       l             r (1 < 4)
+         l           r ( -3 < 4)
+         l         r (4 == 4)
+         l       r (4 > -5)
+         l     r (4 > 1)
+         l   r (4 > 2)
+         l r (4 > 1)
+- calculate sum of subarray for each loop
+
+edge case
+[1,2,-1,-2,2,1,-2,1,4,-5,4]
+ 1 3  2  0 2 3  1 2 6  1 5 
+ s                       e  (5)
+   s                     e  (4)
+      s                  e  (2)
+         s               e  (3)
+           s             e  (5)
+             s           e  (3)
+               s         e  (2)
+                  s      e  (4)
+                    s    e  (3)
+                    s e (-1)
+*/
