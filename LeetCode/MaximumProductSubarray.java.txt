@@ -1,0 +1,71 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums.length == 1) {
+            return nums[0];
+        }
+        int[] products = calculateProducts(nums);
+        int positive = 0; 
+        int negative = 0;
+        int answer = 0; 
+         0, 2
+         products 1, 0, 0
+        for(int i = products.length - 1; i = 0; i--) {
+            if(products[i]  0) {
+                answer = Math.max(answer, negative  products[i]);
+            }
+            if(products[i]  0) {
+                answer = Math.max(answer, positive  products[i]);
+            }
+             maximum positive number
+            if(products[i]  positive) {
+                positive = products[i];
+            }
+             minimum negative number
+            if(products[i]  0 && negative  products[i]) {
+                negative = products[i];
+            }
+        }
+        return answer;
+    }
+
+     nums 2 3 -2 4
+     products 1 2 6 -12 -48
+     products[i] = nums[i - 1]  products[i - 1]
+    private int[] calculateProducts(int[] nums) {
+        int[] products = new int[nums.length + 1]; 
+        products[0] = 1;
+        for(int i = 1; i  products.length; i++) {
+            products[i] = nums[i - 1]  products[i - 1];
+        }
+        return products;
+    }
+}
+
+
+problem maximum product subarray
+- subarray means ...
+constraint 
+- range of array's size  2  10^4
+- range of array's element -10 ~ 10
+solution 
+- sliding window 
+nums 2 3 -2 4
+        ^    ^ = product  -24
+products 2 6 -12 -48 = -48  2 = -24
+product(nums[i] ~ nums[j]) = products[j]  products[i - 1]
+maximum(products[j]  products[i - 1])
+- max(products[j]), min(products[i - 1])
+- consider sign. 
+    - positive positive
+    - negative negative
+    - products 1, -5 (1) = j and i can be equal.
+1 2 6 -12 -48
+       ^   ^ cand1 = 4
+^   ^        cand2 = 6
+
+-2, 0, -1
+1, -2, 0, 0
+
+positive = 1
+negative = -2
+ 
