@@ -1,0 +1,49 @@
+class Solution {
+public:
+  int characterReplacement(string s, int k) { 
+    int cand1 = findLongest(s, k); 
+    reverse(s.begin(), s.end()); 
+    int cand2 = findLongest(s, k); 
+    return max(cand1, cand2);
+  }
+private: 
+    int findLongest(string s, int k) {
+    char repeated = s[0]; 
+    int count = 0;
+    int answer = 0;
+    int len = s.length();
+    for(int i = 0; i < len; i++) {
+        if(s[i] != repeated) {
+        int j = i;
+        int converted = 0; 
+        while((j < len) && (s[j] == repeated || converted < k)) {
+            if(s[j] != repeated) {
+            converted++;
+            }
+            j++;
+            count++;
+        }
+        answer = max(answer, count);
+        count = 1;
+        repeated = s[i];
+        } else {
+        count++;
+        answer = max(answer, count);
+        }
+    }
+    return answer;
+    }
+};
+
+/**
+ABAB
+i = 0 
+j = 3
+r = 2
+
+AABABBA
+i = 1
+j = 3
+r = 1
+
+*/
